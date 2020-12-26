@@ -4,9 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeShop"
+        xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="1200">
+
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate x:Key="AddOrderTemplate">
+            <local:AddOrderView/>
+        </DataTemplate>
+
+        <!--<DataTemplate x:Key="View2Template">
+            <local:View2 />
+        </DataTemplate>-->
+    </Window.Resources>
+    
     <Grid>
-        
+        <ContentControl Name="userControl">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SwitchView}" Value="0">
+                            <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
     </Grid>
 </Window>
