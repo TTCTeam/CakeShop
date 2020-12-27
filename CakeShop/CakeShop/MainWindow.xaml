@@ -5,35 +5,156 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeShop"
         xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200">
+        Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None">
 
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
     </Window.DataContext>
-
+    
     <Window.Resources>
+        <DataTemplate x:Key="HomeTemplate">
+            <local:HomeView/>
+        </DataTemplate>
+        
         <DataTemplate x:Key="AddOrderTemplate">
             <local:AddOrderView/>
         </DataTemplate>
-
-        <!--<DataTemplate x:Key="View2Template">
-            <local:View2 />
-        </DataTemplate>-->
+        
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
-    
-    <Grid>
-        <ContentControl Name="userControl">
-            <ContentControl.Style>
-                <Style TargetType="{x:Type ContentControl}">
-                    <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding SwitchView}" Value="0">
-                            <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid MouseDown="Grid_MouseDown">
+        
+
+        <StackPanel Background="#FFB74D" VerticalAlignment="Top" Height="40">
+            <Grid Height="40">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Image VerticalAlignment="Center" Margin="10,0,0,0" Height="30" Source="/Images/CakeShopLogo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Label VerticalAlignment="Center" Content="CAKE SHOP" Foreground="Black" FontSize="20" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Minimize" Background="White" Margin="6,0,6,0" x:Name="MinimizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MinimizeButton_Click">
+                        <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20" Foreground="Black"/>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Maximize" Background="White" Margin="6,0,6,0" x:Name="MaximizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MaximizeButton_Click">
+                        <materialDesign:PackIcon Name="Maximize" Kind="WindowMaximize" Width="20" Height="20" Foreground="Black"/>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                            ToolTip="Exit" Background="OrangeRed" Margin="6,0,6,0" x:Name="ExitButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="ExitButton_Click">
+                        <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20" Foreground="Black"/>
+                    </Button>
+
+
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Grid x:Name="GridPrincipal" Margin="60,40,0,0" Background="#FFE082">
+            <ContentControl Name="userControl">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Setter Property="ContentTemplate" Value="{StaticResource HomeTemplate}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SwitchView}" Value="0">
+                                <Setter Property="ContentTemplate" Value="{StaticResource HomeTemplate}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding SwitchView}" Value="1">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Grid>
+
+        <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FFB74D" Margin="0,40,0,0">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
+            </Grid.Effect>
+            <StackPanel>
+                <Grid Height="150" Background="#FFB74D" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Click="ButtonOpenMenu_Click">
+                        <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" Foreground="Black"/>
+                    </Button>
+                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" Click="ButtonCloseMenu_Click">
+                        <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
+                    </Button>
+
+                    <Image Height="80" VerticalAlignment="Bottom"/>
+                </Grid>
+                <ListView x:Name="ListViewMenu" Foreground="White" FontWeight="Bold" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          SelectedIndex="{Binding SelectedIndex}">
+                    <ListViewItem x:Name="ItemHome" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Home" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="HOME" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemAddNewCake" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AddCircleOutline" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="CREATE CAKE" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemAddShopping" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AddShoppingCart" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="CREATE ORDER" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemStatistics" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ChartBoxOutline" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="STATISTICS" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemAbout" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="About" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="ABOUT" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </StackPanel>
+        </Grid>
     </Grid>
+
 </Window>
