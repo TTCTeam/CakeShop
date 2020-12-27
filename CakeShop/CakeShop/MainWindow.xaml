@@ -4,94 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CakeShop"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1200">
+        xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1200">
+
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate x:Key="AddOrderTemplate">
+            <local:AddOrderView/>
+        </DataTemplate>
+
+        <!--<DataTemplate x:Key="View2Template">
+            <local:View2 />
+        </DataTemplate>-->
+    </Window.Resources>
+    
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Background="Transparent" Grid.Column="0">
-
-            <Image Margin="20" Source="{Binding Path=Thumbnail}" RenderOptions.BitmapScalingMode="HighQuality"/>
-
-        </Grid>
-
-        <Grid Grid.Column="1">
-
-            <StackPanel Orientation="Vertical">
-
-                <StackPanel>
-
-                    <TextBox   
-                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
-                        VerticalAlignment="Top"    
-                        Margin="10 15"
-                        Name="nameCake"
-                        Text="{Binding Path=Name}"
-                        AcceptsReturn="True"    
-                        TextWrapping="Wrap"    
-                        VerticalScrollBarVisibility="Auto"    
-                        materialDesign:HintAssist.Hint="Cake Name"    
-                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
-
-                    <TextBox   
-                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
-                        VerticalAlignment="Top"    
-                        Margin="10 15"
-                        x:Name="priceCake"
-                        Text="{Binding Path=Price}"
-                        AcceptsReturn="True"    
-                        TextWrapping="Wrap"    
-                        VerticalScrollBarVisibility="Auto"    
-                        materialDesign:HintAssist.Hint="Price"    
-                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
-
-
-                    <TextBox   
-                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
-                        VerticalAlignment="Top"    
-                        Margin="10 15"
-                        x:Name="typeCake"
-                        Text="{Binding Path=Type}"
-                        AcceptsReturn="True"    
-                        TextWrapping="Wrap"    
-                        VerticalScrollBarVisibility="Auto"    
-                        materialDesign:HintAssist.Hint="Type"    
-                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
-
-                    <TextBox   
-                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
-                        VerticalAlignment="Top"    
-                        Margin="10 15"
-                        x:Name="ingredientCake"
-                        Text="{Binding Path=Ingredients}"
-                        AcceptsReturn="True"    
-                        TextWrapping="Wrap"    
-                        VerticalScrollBarVisibility="Auto"    
-                        materialDesign:HintAssist.Hint="Ingredient"    
-                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
-                    <TextBox   
-                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
-                        VerticalAlignment="Top"    
-                        Margin="10 15"
-                        x:Name="descriptionCake"
-                        Text="{Binding Path=Ingredients}"
-                        AcceptsReturn="True"    
-                        TextWrapping="Wrap"    
-                        VerticalScrollBarVisibility="Auto"    
-                        materialDesign:HintAssist.Hint="Description"    
-                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
-
-
-                </StackPanel>
-                
-
-            </StackPanel>
-
-        </Grid>
-
+        <ContentControl Name="userControl">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SwitchView}" Value="0">
+                            <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
     </Grid>
 </Window>
