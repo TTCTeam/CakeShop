@@ -4,9 +4,169 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CakeShop"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+              TextElement.Foreground="{DynamicResource MaterialDesignBody}"     
+             TextElement.FontWeight="Regular"    
+             TextElement.FontSize="13"    
+             TextOptions.TextFormattingMode="Ideal"    
+             TextOptions.TextRenderingMode="Auto"   
+             Background="{DynamicResource MaterialDesignPaper}"    
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DesignHeight="700" d:DesignWidth="1200"
+             
+            DataContext="{StaticResource DetailCakeVM}"
+             
+             >
+    <UserControl.Resources>
+        <local:AbsoluteConverter x:Key="converter"/>
+    </UserControl.Resources>
+    
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="Transparent" Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
             
+            <Image Margin="20"  Grid.Row="0"
+                   AllowDrop="True"                 
+                   Source="{Binding Path=ImagePath, Converter={StaticResource converter}, UpdateSourceTrigger=PropertyChanged}" 
+                   
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Stretch="UniformToFill"
+                   />
+
+            <Button   Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"  
+                        Command="{Binding AddImageCommand}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                        Margin="20 0 0 0"
+                        Content="UPDATE NEW IMAGE" />
+            
+        </Grid>
+
+        <Grid Grid.Column="1">
+
+            <StackPanel Orientation="Vertical">
+
+                <StackPanel>
+
+                    <TextBox   
+                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
+                        VerticalAlignment="Top"    
+                        Margin="10 15"
+                        Name="nameCake"
+                        Text="{Binding Path=Cake.Name}"
+                        AcceptsReturn="True"    
+                        TextWrapping="Wrap"    
+                        VerticalScrollBarVisibility="Auto"    
+                        materialDesign:HintAssist.Hint="Tên bánh"    
+                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox  Margin="10"
+                                materialDesign:HintAssist.Hint="Loại"  
+                                MinWidth="72"  
+                                ItemsSource="{Binding TypeList}"  
+                                SelectedValue="{Binding Path=Type}">
+                                <ComboBox.SelectedItem>
+                                    <Binding     
+                                        Path="Type"    
+                                        Mode="TwoWay"    
+                                        UpdateSourceTrigger="PropertyChanged">
+                                        
+                                    </Binding>
+                                </ComboBox.SelectedItem>
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
+
+                            <TextBox   Grid.Column="1"
+                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
+                        VerticalAlignment="Top"    
+                        Margin="10 15"
+                        x:Name="priceCake"
+                        Text="{Binding Path=Cake.Price}"
+                        AcceptsReturn="True"    
+                        TextWrapping="Wrap"    
+                        VerticalScrollBarVisibility="Auto"    
+                        materialDesign:HintAssist.Hint="Giá"    
+                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
+
+                        </Grid>
+                       
+                    </StackPanel>
+                  
+
+
+                   
+
+                    <TextBox   
+                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
+                        VerticalAlignment="Top"    
+                        Margin="10 15"
+                        x:Name="ingredientCake"
+                        Text="{Binding Path=Cake.Ingredients}"
+                        AcceptsReturn="True"    
+                        TextWrapping="Wrap"    
+                        VerticalScrollBarVisibility="Auto"    
+                        materialDesign:HintAssist.Hint="Thành phần"    
+                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
+                    <TextBox   
+                        Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"    
+                        VerticalAlignment="Top"    
+                        Margin="10 15"
+                        x:Name="descriptionCake"
+                        Text="{Binding Path=Cake.Description}"
+                        AcceptsReturn="True"    
+                        TextWrapping="Wrap"    
+                        VerticalScrollBarVisibility="Auto"    
+                        materialDesign:HintAssist.Hint="Mô tả"    
+                        IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+
+                        <Button   
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"  
+                        Command="{Binding UpdateCommand}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"
+ 
+                        Content="UPDATE" Margin="0 0 20 0"/>
+
+                        <!--<Button   
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"  
+                        Command="{Binding AddCommand}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                        Margin="20 0 0 0"
+                        Content="ADD NEW CAKE" />-->
+
+                    </StackPanel>
+                    
+
+                </StackPanel>
+
+
+            </StackPanel>
+
+        </Grid>
+
     </Grid>
 </UserControl>
