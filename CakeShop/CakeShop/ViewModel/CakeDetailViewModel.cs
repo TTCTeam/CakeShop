@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CakeShop.ViewModel
@@ -66,12 +67,14 @@ namespace CakeShop.ViewModel
 
                 var type = DataProvider.Ins.DB.TypeDescriptions.Where(x => x.Description == Type).SingleOrDefault().Type;
                 cake.Type = type;
+                
                 DataProvider.Ins.DB.SaveChanges();
                 //Delete the old file
                 //if (File.Exists(oldPath))
                 //{
                 //    File.Delete(oldPath);
                 //}
+                MessageBox.Show("Đã cập nhật thành công.");
             });
 
             AddImageCommand = new RelayCommand<object>((p) =>
@@ -94,6 +97,7 @@ namespace CakeShop.ViewModel
                          SaveImageToFolder(Cake, ImagePath);
                          break;
                      }
+                    
 
                  }
              });
@@ -173,7 +177,7 @@ namespace CakeShop.ViewModel
                 var inFo = new FileInfo(newFilePath);
                 var newname = $"{Guid.NewGuid()}{inFo.Extension}";
                 File.Copy(newFilePath, $"{directoryPath}\\{newname}");
-                cake.Thumbnail = ConvertAbsolutePathToRelativePath($"{directoryPath}\\{newname}");
+                ImagePath = ConvertAbsolutePathToRelativePath($"{directoryPath}\\{newname}");
             }
 
         }
