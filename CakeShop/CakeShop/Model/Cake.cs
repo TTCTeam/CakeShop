@@ -19,14 +19,7 @@ namespace CakeShop.Model
         {
             this.OrderDetails = new ObservableCollection<OrderDetail>();
         }
-        public Cake(int type, string path, int price, string desc, string ingredients)
-        {
-            Type = type;
-            Thumbnail = path;
-            Price = price;
-            Description = desc;
-            Ingredients = ingredients;
-        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Thumbnail { get; set; }
