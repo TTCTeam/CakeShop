@@ -7,13 +7,14 @@
         xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None" Name="MainWindowView">
 
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
     </Window.DataContext>
     
     <Window.Resources>
+        
         <DataTemplate x:Key="HomeTemplate">
             <local:HomeView/>
         </DataTemplate>
@@ -58,18 +59,21 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Minimize" Background="White" Margin="6,0,6,0" x:Name="MinimizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MinimizeButton_Click">
+                    <Button Command="{Binding MinimizeWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Minimize" Background="White" Margin="6,0,6,0" x:Name="MinimizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Maximize" Background="White" Margin="6,0,6,0" x:Name="MaximizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MaximizeButton_Click">
+                    <Button Command="{Binding MaximizeWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Maximize" Background="White" Margin="6,0,6,0" x:Name="MaximizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Name="Maximize" Kind="WindowMaximize" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Exit" Background="OrangeRed" Margin="6,0,6,0" x:Name="ExitButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="ExitButton_Click">
+                    <Button Command="{Binding CloseWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Exit" Background="OrangeRed" Margin="6,0,6,0" x:Name="ExitButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
