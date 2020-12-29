@@ -4,25 +4,255 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CakeShop"
+             xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
+             Name="addOrderUserControl"
              d:DesignHeight="700" d:DesignWidth="1200">
+    <UserControl.DataContext>
+        <viewmodel:AddOrderViewModel/>
+    </UserControl.DataContext>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="7*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="THÊM ĐƠN HÀNG" FontSize="30" Padding="10" Margin="10"/>
+        </Grid>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Grid.Row="1">
+            <StackPanel Margin="10">
+                <TextBox 
+                    Name="customerNameTextBox"
+                    materialDesign:HintAssist.Hint="Tên khách hàng"
+                    Text="{Binding CustomerName}"
+                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                    VerticalAlignment="Center" 
+                    materialDesign:HintAssist.FloatingScale="0.8"
+                    Margin="5" FontSize="15"/>
+                <TextBox 
+                    Name="telTextBox"
+                    materialDesign:HintAssist.Hint="Số điện thoại"
+                    Text="{Binding Tel}"
+                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                    VerticalAlignment="Center" 
+                    Margin="5" FontSize="15"/>
+                <TextBox
+                    Name="addressTextBox"
+                    materialDesign:HintAssist.Hint="Địa chỉ"
+                    Text="{Binding Address}"
+                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                    VerticalAlignment="Center" 
+                    Margin="5" FontSize="15"/>
+                <TextBox 
+                    Name="orderDateTextBox"
+                    materialDesign:HintAssist.Hint="Ngày đặt hàng"
+                    Text="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy}, TargetNullValue='', ConverterCulture=vn-VN, UpdateSourceTrigger=LostFocus}"
+                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                    VerticalAlignment="Center"
+                    Margin="5" FontSize="15">
+                </TextBox>
+                <TextBlock Text="Phương thức thanh toán" FontSize="18" Margin="0,20,0,0" Padding="10"/>
+                <RadioButton Name="paymentInCash" GroupName="paymentMethod" 
+                             Content="Thanh toán bằng tiền mặt"
+                             FontSize="15"
+                             Margin="5"
+                             IsChecked="{Binding PaymentInCash}"
+                             Style="{StaticResource MaterialDesignRadioButton}"/>
+                <RadioButton Name="paymentByBankTransfer" GroupName="paymentMethod" 
+                             Content="Chuyển khoản" 
+                             FontSize="15"
+                             Margin="5"
+                             IsChecked="{Binding PaymentByBankTransfer}"
+                             Style="{StaticResource MaterialDesignRadioButton}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <StackPanel Margin="20,0,20,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Name="saveButton" Height="40" Width="40" Margin="5" BorderThickness="0" Command="{Binding AddOrderCommand}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/save_icon.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button.Background>
+                </Button>
+                <Button Name="cancelButton" Height="40" Width="40" Margin="20,5,5,5" BorderThickness="0">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/prohibition.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
             <StackPanel>
-                <TextBox materialDesign:HintAssist.Hint="Tên khách hàng"
-                         Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
-                         VerticalAlignment="Center" 
-                         Margin="5" FontSize="15"/>
-                <TextBox materialDesign:HintAssist.Hint="Số điện thoại"
-                         Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
-                         VerticalAlignment="Center" 
-                         Margin="5" FontSize="15"/>
+                <TextBlock Text="Chi tiết đơn hàng"  Margin="20,10,0,0" FontSize="18"/>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <ComboBox 
+                        Name="cakeNameComboBox"
+                        Width="290"
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Tên bánh"
+                        materialDesign:HintAssist.HintOpacity=".26"
+                        ItemsSource="{Binding Cakes}"
+                        SelectedItem="{Binding SelectedCake}"
+                        FontSize="15"
+                        IsEditable="True"
+                        IsTextSearchEnabled="True"
+                        TextSearch.TextPath="Name">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBox 
+                        Name="cakeTypeComboBox"
+                        Width="130"
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Loại bánh"
+                        materialDesign:HintAssist.HintOpacity=".26"
+                        Text="{Binding ElementName=cakeNameComboBox, Path=SelectedItem.TypeDescription.Description}"
+                        FontSize="15"
+                        Padding="0,1,0,0">
+
+                    </TextBox>
+                    <TextBox
+                        Name="priceTextBox"
+                        Width="120"
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Đơn giá"
+                        materialDesign:HintAssist.HintOpacity=".26"
+                        Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:c0}, ConverterCulture=vn-VN}"
+                        FontSize="15"
+                        Padding="0,1,0,0">
+                    </TextBox>
+                    <ComboBox 
+                        Name="quantityComboBox"
+                        Width="80"
+                        Margin="10"
+                        materialDesign:HintAssist.Hint="Số lượng"
+                        materialDesign:HintAssist.HintOpacity=".26"
+                        ItemsSource="{Binding Quantities}"
+                        Text="{Binding SelectedQuantity,TargetNullValue=''}"
+                        FontSize="15"
+                        IsEditable="True">
+                    </ComboBox>
+                    <Button
+                        Width="80"
+                        Margin="10"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Content="Thêm"
+                        FontSize="15"
+                        Command="{Binding AddOrderDetailCommand}">
+                    </Button>
+
+                </StackPanel>
+                <materialDesign:PackIcon Kind="ArrowDownBold" Height="30" Width="40" Foreground="#FF0D47A1" HorizontalAlignment="Center"/>
+                <ListView Name="ordersListView" ItemsSource="{Binding OrderDetails}" Height="250" Margin="5,0,30,0" ScrollViewer.CanContentScroll="False">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Background="Transparent" >
+                                <Label 
+                                    Width="290"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Tên bánh"
+                                    materialDesign:HintAssist.HintOpacity=".26"
+                                    Content="{Binding Path=Cake.Name}"
+                                    FontSize="15">
+                                </Label>
+                                <Label 
+                                    Width="130"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Loại bánh"
+                                    materialDesign:HintAssist.HintOpacity=".26"
+                                    Content="{Binding Path=Cake.TypeDescription.Description}"
+                                    FontSize="15">
+                                </Label>
+                                <TextBox
+                                    Width="120"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Đơn giá"
+                                    materialDesign:HintAssist.HintOpacity=".26"
+                                    Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:c0}, ConverterCulture=vn-VN}"
+                                    FontSize="15"
+                                    Padding="0,1,0,0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="TextChanged">
+                                            <i:InvokeCommandAction Command="{Binding ElementName=addOrderUserControl, Path=DataContext.PropertyChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <ComboBox 
+                                    Width="80"
+                                    Margin="10"
+                                    materialDesign:HintAssist.Hint="Số lượng"
+                                    materialDesign:HintAssist.HintOpacity=".26"
+                                    ItemsSource="{Binding Path=DataContext.Quantities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                    Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                    FontSize="15"
+                                    IsEditable="True">
+                                </ComboBox>
+                                <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="TextChanged">
+                                            <i:InvokeCommandAction Command="{Binding ElementName=addOrderUserControl, Path=DataContext.PropertyChangedCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <Button
+                                    Height="30"
+                                    Width="30"
+                                    Margin="20,10,15,10"
+                                    Background="Red"
+                                    BorderBrush="Red"
+                                    Command="{Binding ElementName=addOrderUserControl, Path=DataContext.RemoveOrderDetailCommand}"
+                                    CommandParameter="{Binding}">
+                                    <materialDesign:PackIcon
+                                        Kind="Close"
+                                        Height="25"
+                                        Width="25"
+                                        />
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsMouseOver}" Value="true">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="20,20,40,5">
+                    <TextBlock Margin="10" Text="Tổng tiền:"  Foreground="{Binding TotalColor}" FontSize="18" FontWeight="Bold"/>
+                    <TextBlock Width="100" TextAlignment="Right" Margin="10"  Foreground="{Binding TotalColor}" Text="{Binding Total, StringFormat={}{0:c0}, ConverterCulture=vn-VN}" FontSize="18" FontWeight="Bold"/>
+                </StackPanel>
+                <CheckBox
+                    FontSize="15"
+                    Margin="0,0,50,0"
+                    HorizontalAlignment="Right"
+                    VerticalContentAlignment="Center"
+                    Content="Đã thanh toán"
+                    IsChecked="{Binding IsPaied}"
+                    Style="{StaticResource MaterialDesignCheckBox}"
+                    materialDesign:CheckBoxAssist.CheckBoxSize="30"/>
             </StackPanel>
         </Grid>
     </Grid>

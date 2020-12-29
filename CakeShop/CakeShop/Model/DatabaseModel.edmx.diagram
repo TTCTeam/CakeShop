@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c01abce460e044b995b6f94741dd5d5d" Name="Diagram1">
-        <EntityTypeShape EntityType="CakeShopModel.Cake" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CakeShopModel.Cake" Width="1.5" PointX="6.875" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeShopModel.Customer" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeShopModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeShopModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="CakeShopModel.PaymentMethodDescription" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CakeShopModel.TypeDescription" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CakeShopModel.TypeDescription" Width="1.5" PointX="4.625" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="CakeShopModel.FK_Cake_TypeDescription" ManuallyRouted="false" />
         <AssociationConnector Association="CakeShopModel.FK_OrderDetail_Cake" ManuallyRouted="false" />
         <AssociationConnector Association="CakeShopModel.FK_Order_Customer" ManuallyRouted="false" />

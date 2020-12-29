@@ -24,6 +24,7 @@ namespace CakeShop.Model
         public Nullable<int> CustomerID { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<int> PaymentMethod { get; set; }
+        public Nullable<bool> IsPaied { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual PaymentMethodDescription PaymentMethodDescription { get; set; }

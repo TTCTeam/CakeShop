@@ -34,6 +34,7 @@
           <Property Name="CustomerID" Type="int" />
           <Property Name="OrderDate" Type="date" />
           <Property Name="PaymentMethod" Type="int" />
+          <Property Name="IsPaied" Type="bit" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -186,6 +187,7 @@
           <NavigationProperty Name="Customer" Relationship="Self.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
           <NavigationProperty Name="PaymentMethodDescription" Relationship="Self.FK_Order_PaymentMethodDescription" FromRole="Order" ToRole="PaymentMethodDescription" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+          <Property Name="IsPaied" Type="Boolean" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -335,6 +337,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="CakeShopModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="IsPaied" ColumnName="IsPaied" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
