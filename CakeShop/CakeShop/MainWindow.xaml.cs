@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CakeShop.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace CakeShop
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = MainWindowViewModel.Instance;
         }
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {

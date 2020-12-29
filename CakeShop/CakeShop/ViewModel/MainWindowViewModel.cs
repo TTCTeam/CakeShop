@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CakeShop.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,23 +10,41 @@ using System.Windows.Input;
 
 namespace CakeShop.ViewModel
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    class MainWindowViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public int SwitchView { get; set; } = 0;
-
+        public int SwitchView { get; set; }
+               
         private int _SelectedIndex;
+
         public int SelectedIndex
         {
             get { return _SelectedIndex; }
             set { _SelectedIndex = value; SwitchView = SelectedIndex; }
         }
 
+        public Cake SelectedItem { get; set; }
         public ICommand CloseWindowCommand { get; set; }
         public ICommand MaximizeWindowCommand { get; set; }
         public ICommand MinimizeWindowCommand { get; set; }
-        public MainWindowViewModel()
+
+        private static MainWindowViewModel instance;
+
+        public static MainWindowViewModel Instance
         {
+            get 
+            {
+                if (instance == null)
+                {
+                    instance = new MainWindowViewModel();
+                }
+                return instance;
+            }
+            set { instance = value; }
+        }
+
+        private MainWindowViewModel()
+        {
+
             CloseWindowCommand = new RelayCommand<Window>((p) => { return true; }, (p) =>
             {
                 var mess = MessageBox.Show("Do you want to exit ?", "Notification", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);

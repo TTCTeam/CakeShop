@@ -14,6 +14,7 @@ namespace CakeShop
         {
             string path = (string)value;
             string absolute;
+            if (path == null) return "";
             if (isRelativePath(path))
             {
                 var folder = AppDomain.CurrentDomain.BaseDirectory;
