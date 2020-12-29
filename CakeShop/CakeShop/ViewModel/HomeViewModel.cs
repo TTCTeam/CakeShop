@@ -34,7 +34,10 @@ namespace CakeShop.ViewModel
                 OnPropertyChanged();
                 if (SelectedItem != null)
                 {
-                    SearchName = SelectedItem.Name;
+                    SelectedItemClass.CakeId = SelectedItem.ID;
+                    MainWindowViewModel.Instance.SwitchView = -1;
+                    MainWindowViewModel.Instance.SelectedIndex = -1;
+                    
                 }
             }
         }
@@ -142,8 +145,10 @@ namespace CakeShop.ViewModel
             },
                 (p) =>
                 {
-                    currentPage = totalPages;
-                    displayCakeList();
+                    //currentPage = totalPages;
+                    //displayCakeList();
+                  
+
                 });
         }
 

@@ -3,25 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
         xmlns:local="clr-namespace:CakeShop"
         xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
-        Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        
+    mc:Ignorable="d"
+        Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None" Name="MainWindowView"
+         xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        >
 
-    <Window.DataContext>
-        <viewmodel:MainWindowViewModel/>
-    </Window.DataContext>
-    
     <Window.Resources>
+
         <DataTemplate x:Key="HomeTemplate">
             <local:HomeView/>
         </DataTemplate>
-        
+
         <DataTemplate x:Key="AddOrderTemplate">
             <local:AddOrderView/>
         </DataTemplate>
-        
+
+        <DataTemplate x:Key="StatisticTemplate">
+            <local:StatisticView/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CakeDetailTemplate" >
+            <local:DetailCakeView  />
+        </DataTemplate>
+
         <Storyboard x:Key="OpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
@@ -46,7 +57,7 @@
     </Window.Triggers>
 
     <Grid MouseDown="Grid_MouseDown">
-        
+
 
         <StackPanel Background="#FFB74D" VerticalAlignment="Top" Height="40">
             <Grid Height="40">
@@ -58,18 +69,21 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                    <Button Command="{Binding MinimizeCommand}" Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Minimize" Background="White" Margin="6,0,6,0" x:Name="MinimizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MinimizeButton_Click">
+                    <Button Command="{Binding MinimizeWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Minimize" Background="White" Margin="6,0,6,0" x:Name="MinimizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Maximize" Background="White" Margin="6,0,6,0" x:Name="MaximizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="MaximizeButton_Click">
+                    <Button Command="{Binding MaximizeWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Maximize" Background="White" Margin="6,0,6,0" x:Name="MaximizeButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Name="Maximize" Kind="WindowMaximize" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
-                            ToolTip="Exit" Background="OrangeRed" Margin="6,0,6,0" x:Name="ExitButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White" Click="ExitButton_Click">
+                    <Button Command="{Binding CloseWindowCommand}" Style="{StaticResource MaterialDesignIconButton}"
+                            CommandParameter="{Binding ElementName=MainWindowView}"
+                            ToolTip="Exit" Background="OrangeRed" Margin="6,0,6,0" x:Name="ExitButton" Width="30" Height="30" BorderBrush="{x:Null}" Padding="0" Foreground="White">
                         <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20" Foreground="Black"/>
                     </Button>
 
@@ -88,8 +102,20 @@
                                 <Setter Property="ContentTemplate" Value="{StaticResource HomeTemplate}" />
                             </DataTrigger>
 
+                            <DataTrigger Binding="{Binding SwitchView}" Value="-1">
+                                <Setter Property="ContentTemplate" Value="{StaticResource CakeDetailTemplate}" />
+                            </DataTrigger>
+
                             <DataTrigger Binding="{Binding SwitchView}" Value="1">
+                                <Setter Property="ContentTemplate" Value="{StaticResource CakeDetailTemplate}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding SwitchView}" Value="2">
                                 <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding SwitchView}" Value="3">
+                                <Setter Property="ContentTemplate" Value="{StaticResource StatisticTemplate}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -128,6 +154,7 @@
                             <TextBlock Text="HOME" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20 10" Foreground="Black"/>
                         </StackPanel>
                     </ListViewItem>
+                   
                     <ListViewItem x:Name="ItemAddNewCake" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="AddCircleOutline" Height="25" Width="25" Margin="10" Foreground="Black"/>
