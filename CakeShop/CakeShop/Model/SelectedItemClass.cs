@@ -9,5 +9,6 @@ namespace CakeShop.Model
     class SelectedItemClass
     {
         public static int? CakeId { get; set; } = null;
+        public static int? OrderId { get; set; } = null;
     }
 }

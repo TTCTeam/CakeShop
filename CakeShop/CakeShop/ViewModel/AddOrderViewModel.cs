@@ -90,6 +90,20 @@ namespace CakeShop.ViewModel
             Cakes = DataProvider.Ins.DB.Cakes.ToList();
             OrderDetails = new ObservableCollection<OrderDetail>();
 
+            if (SelectedItemClass.OrderId!=null)
+            {
+                var order = DataProvider.Ins.DB.Orders.Find(SelectedItemClass.OrderId);
+                CustomerName = order.Customer.Name;
+                Tel = order.Customer.Tel;
+                Address = order.Customer.Address;
+                OrderDate = order.OrderDate;
+                PaymentMethod = (int)order.PaymentMethod;
+                OrderDetails = order.OrderDetails;
+                IsPaied = (bool)order.IsPaied;
+                CalculateTotal();
+                SelectedItemClass.OrderId = null;
+            }
+
             AddOrderDetailCommand = new RelayCommand<object>((p) =>
             {
                 return SelectedCake != null && SelectedQuantity != null;

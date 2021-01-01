@@ -8,11 +8,8 @@
         xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         
-    mc:Ignorable="d"
+        mc:Ignorable="d"
         Height="750" Width="1275" WindowStartupLocation="CenterScreen" WindowStyle="None" Name="MainWindowView"
-         xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         >
 
     <Window.Resources>
@@ -30,7 +27,11 @@
         </DataTemplate>
 
         <DataTemplate x:Key="CakeDetailTemplate" >
-            <local:DetailCakeView  />
+            <local:DetailCakeView/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListOrdersTemplate" >
+            <local:ListOrdersView/>
         </DataTemplate>
 
         <Storyboard x:Key="OpenMenu">
@@ -56,7 +57,7 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid MouseDown="Grid_MouseDown">
+    <Grid MouseLeftButtonDown="Grid_MouseDown">
 
 
         <StackPanel Background="#FFB74D" VerticalAlignment="Top" Height="40">
@@ -109,6 +110,10 @@
                             <DataTrigger Binding="{Binding SwitchView}" Value="1">
                                 <Setter Property="ContentTemplate" Value="{StaticResource CakeDetailTemplate}" />
                             </DataTrigger>
+                            
+                            <DataTrigger Binding="{Binding SwitchView}" Value="-2">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
+                            </DataTrigger>
 
                             <DataTrigger Binding="{Binding SwitchView}" Value="2">
                                 <Setter Property="ContentTemplate" Value="{StaticResource AddOrderTemplate}" />
@@ -117,6 +122,11 @@
                             <DataTrigger Binding="{Binding SwitchView}" Value="3">
                                 <Setter Property="ContentTemplate" Value="{StaticResource StatisticTemplate}"/>
                             </DataTrigger>
+
+                            <DataTrigger Binding="{Binding SwitchView}" Value="4">
+                                <Setter Property="ContentTemplate" Value="{StaticResource ListOrdersTemplate}"/>
+                            </DataTrigger>
+
                         </Style.Triggers>
                     </Style>
                 </ContentControl.Style>
