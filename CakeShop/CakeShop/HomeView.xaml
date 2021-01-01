@@ -14,6 +14,7 @@
         <viewmodel:HomeViewModel/>
     </UserControl.DataContext>
     <UserControl.Resources>
+        <local:AbsoluteConverter x:Key="converter"/>
         <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
             <Setter Property="Template">
                 <Setter.Value>
@@ -252,7 +253,7 @@
                         Orientation="Horizontal"
                         Margin="0,0,20,0">
 
-                <ComboBox SelectedIndex="{Binding SelectedTypeIndex}" SelectedItem="{Binding SelectedType}" ItemsSource="{Binding ListType}" x:Name="typeComboBox" Height="40" Width="220" Margin="2" Style="{DynamicResource ComboBoxStyle}">
+                <ComboBox SelectedIndex="{Binding SelectedTypeIndex}" SelectedItem="{Binding SelectedType}" ItemsSource="{Binding ListType}" x:Name="typeComboBox" Height="40" Width="250" Margin="2" Style="{DynamicResource ComboBoxStyle}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Description}" />
@@ -301,7 +302,7 @@
                                                 Height="150"
                                                 VerticalAlignment="Top">
                                         <StackPanel.Background>
-                                            <ImageBrush ImageSource="{Binding Thumbnail}"/>
+                                            <ImageBrush ImageSource="{Binding Thumbnail, Converter={StaticResource converter}, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel.Background>
                                         <StackPanel.OpacityMask>
                                             <VisualBrush Visual="{Binding ElementName=Mask1}" />
@@ -312,7 +313,7 @@
                                     <StackPanel>
                                         <Label x:Name="Name" Content="{Binding Name}" HorizontalAlignment="Center" FontSize="19" Foreground="DarkBlue" FontWeight="Bold"/>
 
-                                        <Label x:Name="Price" Content="500.000" HorizontalAlignment="Center" FontSize="16" Foreground="Black" FontWeight="Bold"/>
+                                        <Label x:Name="Price" Content="{Binding Price}" HorizontalAlignment="Center" FontSize="16" Foreground="Black" FontWeight="Bold"/>
 
                                         <Button Margin="0,3,0,0" Name="Detail" Style="{StaticResource MaterialDesignRaisedAccentButton}"
                                             ToolTip="Resource name: MaterialDesignRaisedAccentButton">

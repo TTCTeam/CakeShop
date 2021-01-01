@@ -145,9 +145,8 @@ namespace CakeShop.ViewModel
             },
                 (p) =>
                 {
-                    //currentPage = totalPages;
-                    //displayCakeList();
-                  
+                    currentPage = totalPages;
+                    displayCakeList();
 
                 });
         }
@@ -166,9 +165,17 @@ namespace CakeShop.ViewModel
 
                 var skip = (currentPage - 1) * rowsPerPage;
                 var take = rowsPerPage;
-                totalPages = totalProducts / rowsPerPage +
-                    (((totalProducts % rowsPerPage) == 0) ? 0 : 1);
 
+                if (totalProducts == 0)
+                {
+                    totalPages = 1;
+                }
+                else
+                {
+                    totalPages = totalProducts / rowsPerPage +
+                    (((totalProducts % rowsPerPage) == 0) ? 0 : 1);
+                }
+                
                 CurrentPagePerTotalPage = $"{currentPage} / {totalPages}";
 
                 List = new ObservableCollection<Cake>(query.Skip(skip).Take(take).ToList());
@@ -181,8 +188,16 @@ namespace CakeShop.ViewModel
 
                 var skip = (currentPage - 1) * rowsPerPage;
                 var take = rowsPerPage;
-                totalPages = totalProducts / rowsPerPage +
+
+                if (totalProducts == 0)
+                {
+                    totalPages = 1;
+                }
+                else
+                {
+                    totalPages = totalProducts / rowsPerPage +
                     (((totalProducts % rowsPerPage) == 0) ? 0 : 1);
+                }
 
                 CurrentPagePerTotalPage = $"{currentPage} / {totalPages}";
 
