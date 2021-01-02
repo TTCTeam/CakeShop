@@ -24,13 +24,14 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBlock Text="THÊM ĐƠN HÀNG" FontSize="30" Padding="10" Margin="10"/>
+            <TextBlock Text="{Binding Title}" FontSize="30" Padding="10" Margin="10"/>
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="1">
             <StackPanel Margin="10">
                 <TextBox 
                     Name="customerNameTextBox"
+                    IsReadOnly="{Binding IsReadOnly}"
                     materialDesign:HintAssist.Hint="Tên khách hàng"
                     Text="{Binding CustomerName}"
                     Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
@@ -39,6 +40,7 @@
                     Margin="5" FontSize="15"/>
                 <TextBox 
                     Name="telTextBox"
+                    IsReadOnly="{Binding IsReadOnly}"
                     materialDesign:HintAssist.Hint="Số điện thoại"
                     Text="{Binding Tel}"
                     Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
@@ -46,6 +48,7 @@
                     Margin="5" FontSize="15"/>
                 <TextBox
                     Name="addressTextBox"
+                    IsReadOnly="{Binding IsReadOnly}"
                     materialDesign:HintAssist.Hint="Địa chỉ"
                     Text="{Binding Address}"
                     Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
@@ -53,6 +56,7 @@
                     Margin="5" FontSize="15"/>
                 <TextBox 
                     Name="orderDateTextBox"
+                    IsReadOnly="{Binding IsReadOnly}"
                     materialDesign:HintAssist.Hint="Ngày đặt hàng"
                     Text="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy}, TargetNullValue='', ConverterCulture=vn-VN, UpdateSourceTrigger=LostFocus}"
                     Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
@@ -64,12 +68,16 @@
                              Content="Thanh toán bằng tiền mặt"
                              FontSize="15"
                              Margin="5"
+                             IsHitTestVisible="{Binding IsChangeable}"
+                             Focusable="{Binding IsChangeable}"
                              IsChecked="{Binding PaymentInCash}"
                              Style="{StaticResource MaterialDesignRadioButton}"/>
                 <RadioButton Name="paymentByBankTransfer" GroupName="paymentMethod" 
                              Content="Chuyển khoản" 
                              FontSize="15"
                              Margin="5"
+                             IsHitTestVisible="{Binding IsChangeable}"
+                             Focusable="{Binding IsChangeable}"
                              IsChecked="{Binding PaymentByBankTransfer}"
                              Style="{StaticResource MaterialDesignRadioButton}"/>
             </StackPanel>
@@ -81,7 +89,7 @@
                         <ImageBrush ImageSource="Images/save_icon.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button.Background>
                 </Button>
-                <Button Name="cancelButton" Height="40" Width="40" Margin="20,5,5,5" BorderThickness="0">
+                <Button Name="cancelButton" Height="40" Width="40" Margin="20,5,5,5" BorderThickness="0" Command="{Binding CancelCommand}">
                     <Button.Background>
                         <ImageBrush ImageSource="Images/prohibition.png" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button.Background>
@@ -102,6 +110,9 @@
                         SelectedItem="{Binding SelectedCake}"
                         FontSize="15"
                         IsEditable="True"
+                        IsReadOnly="{Binding IsReadOnly}"
+                        IsHitTestVisible="{Binding IsChangeable}"
+                        Focusable="{Binding IsChangeable}"
                         IsTextSearchEnabled="True"
                         TextSearch.TextPath="Name">
                         <ComboBox.ItemTemplate>
@@ -112,6 +123,7 @@
                     </ComboBox>
                     <TextBox 
                         Name="cakeTypeComboBox"
+                        IsReadOnly="{Binding IsReadOnly}"
                         Width="130"
                         Margin="10"
                         materialDesign:HintAssist.Hint="Loại bánh"
@@ -123,6 +135,7 @@
                     </TextBox>
                     <TextBox
                         Name="priceTextBox"
+                        IsReadOnly="{Binding IsReadOnly}"
                         Width="120"
                         Margin="10"
                         materialDesign:HintAssist.Hint="Đơn giá"
@@ -133,6 +146,9 @@
                     </TextBox>
                     <ComboBox 
                         Name="quantityComboBox"
+                        IsReadOnly="{Binding IsReadOnly}"
+                        IsHitTestVisible="{Binding IsChangeable}"
+                        Focusable="{Binding IsChangeable}"
                         Width="80"
                         Margin="10"
                         materialDesign:HintAssist.Hint="Số lượng"
@@ -177,6 +193,7 @@
                                     FontSize="15">
                                 </Label>
                                 <TextBox
+                                    IsReadOnly="{Binding ElementName=addOrderUserControl, Path=DataContext.IsReadOnly}"
                                     Width="120"
                                     Margin="10"
                                     materialDesign:HintAssist.Hint="Đơn giá"
@@ -191,14 +208,17 @@
                                     </i:Interaction.Triggers>
                                 </TextBox>
                                 <ComboBox 
-                                    Width="80"
+                                    IsReadOnly="{Binding ElementName=addOrderUserControl, Path=DataContext.IsReadOnly}"
+                                    IsHitTestVisible="{Binding ElementName=addOrderUserControl, Path=DataContext.IsChangeable}"
+                                    Focusable="{Binding ElementName=addOrderUserControl, Path=DataContext.IsReadOnly}"
+                                    Width="80" 
                                     Margin="10"
                                     materialDesign:HintAssist.Hint="Số lượng"
                                     materialDesign:HintAssist.HintOpacity=".26"
-                                    ItemsSource="{Binding Path=DataContext.Quantities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                    ItemsSource="{Binding Path=DataContext.Quantities, ElementName=addOrderUserControl}"
                                     Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                     FontSize="15"
-                                    IsEditable="True">
+                                    IsEditable="False">
                                 </ComboBox>
                                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed">
                                     <i:Interaction.Triggers>

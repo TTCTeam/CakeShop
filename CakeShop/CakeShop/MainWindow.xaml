@@ -120,13 +120,12 @@
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding SwitchView}" Value="3">
-                                <Setter Property="ContentTemplate" Value="{StaticResource StatisticTemplate}"/>
-                            </DataTrigger>
-
-                            <DataTrigger Binding="{Binding SwitchView}" Value="4">
                                 <Setter Property="ContentTemplate" Value="{StaticResource ListOrdersTemplate}"/>
                             </DataTrigger>
 
+                            <DataTrigger Binding="{Binding SwitchView}" Value="4">
+                                <Setter Property="ContentTemplate" Value="{StaticResource StatisticTemplate}"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ContentControl.Style>
@@ -175,6 +174,12 @@
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="AddShoppingCart" Height="25" Width="25" Margin="10" Foreground="Black"/>
                             <TextBlock Text="CREATE ORDER" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="ItemShopping" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Cart" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                            <TextBlock Text="ORDER LIST" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="20 10" Foreground="Black"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="ItemStatistics" Height="60">

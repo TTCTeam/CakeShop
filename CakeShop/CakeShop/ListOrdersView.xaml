@@ -13,28 +13,69 @@
     <UserControl.DataContext>
         <viewmodel:ListOrdersModelView/>
     </UserControl.DataContext>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="8*"></RowDefinition>
+            <RowDefinition Height="7*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-                <TextBlock Text="DANH SÁCH ĐƠN HÀNG" FontSize="30" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox Width="250" Grid.Column="2" HorizontalAlignment="Center">
 
-                </ComboBox>
-            
+            <Grid Grid.Column="0" HorizontalAlignment="Center" 
+                      VerticalAlignment="Center">
+
+                <TextBlock Text="DANH SÁCH ĐƠN HÀNG" 
+                               TextWrapping="WrapWithOverflow"
+                               FontSize="25" FontWeight="Bold" 
+                               Foreground="Black"/>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+
+                <DatePicker             
+                    Margin="5"
+                    materialDesign:HintAssist.Hint="Từ ngày"  
+                    materialDesign:HintAssist.FloatingScale="0.8"
+                    SelectedDate="{Binding StartDate, ConverterCulture=vn-VN}"
+                    Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
+                    FontSize="15"/>
+
+            </Grid>
+
+            <Grid Grid.Column="2">
+
+                <DatePicker    
+                    Margin="5"
+                    materialDesign:HintAssist.Hint="Đến ngày"  
+                    materialDesign:HintAssist.FloatingScale="0.8"
+                    SelectedDate="{Binding EndDate, ConverterCulture=vn-VN}"
+                    Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
+                    FontSize="15"/>
+
+            </Grid>
+
+
+            <Grid Grid.Column="3">
+
+                <Button  
+                    Command="{Binding RefreshCommand}"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}"  
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Làm mới" />
+
+            </Grid>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Orders}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" FontSize="15">
+            <DataGrid ItemsSource="{Binding Orders}" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" FontSize="15">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="*" Header="Ngày đặt hàng" Binding="{Binding Path=OrderDate}" IsReadOnly="True">
                         <DataGridTextColumn.ElementStyle>
@@ -62,6 +103,8 @@
                             <Style TargetType="CheckBox">
                                 <Setter Property="VerticalAlignment"  Value="Center" />
                                 <Setter Property="HorizontalAlignment"  Value="Center" />
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                <Setter Property="Focusable" Value="False"/>
                             </Style>
                         </DataGridCheckBoxColumn.ElementStyle>
                     </DataGridCheckBoxColumn>

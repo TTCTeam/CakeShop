@@ -24,48 +24,48 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-           
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" HorizontalAlignment="Center" 
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" HorizontalAlignment="Center" 
                       VerticalAlignment="Center">
 
-                    <TextBlock Text="BẢNG THỐNG KÊ" 
+                <TextBlock Text="BẢNG THỐNG KÊ" 
                                TextWrapping="WrapWithOverflow"
                                FontSize="25" FontWeight="Bold" 
                                Foreground="Black"
                                />
 
-                </Grid>
-                
-                <Grid Grid.Column="1" Margin="10">
+            </Grid>
 
-                    <DatePicker                     
+            <Grid Grid.Column="1" Margin="10">
+
+                <DatePicker                     
                     materialDesign:HintAssist.Hint="Từ ngày"  
                     materialDesign:HintAssist.FloatingScale="0.9"
                     SelectedDate="{Binding StartDate}"
                     Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
                     FontSize="15"/>
 
-                </Grid>
-                
-                <Grid Grid.Column="2" Margin="10">
+            </Grid>
 
-                    <DatePicker                     
+            <Grid Grid.Column="2" Margin="10">
+
+                <DatePicker                     
                     SelectedDate="{Binding EndDate}"
                     materialDesign:HintAssist.Hint="Đến ngày"  
                     materialDesign:HintAssist.FloatingScale="0.9"
                     Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
                     FontSize="15"/>
 
-                </Grid>
+            </Grid>
 
 
             <Grid Grid.Column="3">
@@ -79,7 +79,7 @@
                     Content="REFRESH" />
 
             </Grid>
-            
+
         </Grid>
 
         <Grid Grid.Row="1">
@@ -94,7 +94,7 @@
                 <livechar:PieChart LegendLocation="Bottom" 
                                    DataClick="pieChartCake_DataClick"                                       
                                     
-                                   Series="{Binding PieSeriesCake}"/> 
+                                   Series="{Binding PieSeriesCake}"/>
 
             </Grid>
 

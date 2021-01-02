@@ -78,12 +78,26 @@ namespace CakeShop.ViewModel
             }
         }
 
+        public bool IsReadOnly { get; set; } = false;
+        public bool IsChangeable
+        {
+            get
+            {
+                return !IsReadOnly;
+            }
+            set { }
+        }
+
+        Order thisOrder;
+        public string Title { get; set; } = "THÊM ĐƠN HÀNG";
 
 
         public ICommand AddOrderDetailCommand { get; set; }
         public ICommand RemoveOrderDetailCommand { get; set; }
         public ICommand PropertyChangedCommand { get; set; }
         public ICommand AddOrderCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+        public ICommand ChangeIsPaiedCommand { get; set; }
 
         public AddOrderViewModel()
         {
@@ -92,21 +106,23 @@ namespace CakeShop.ViewModel
 
             if (SelectedItemClass.OrderId!=null)
             {
-                var order = DataProvider.Ins.DB.Orders.Find(SelectedItemClass.OrderId);
-                CustomerName = order.Customer.Name;
-                Tel = order.Customer.Tel;
-                Address = order.Customer.Address;
-                OrderDate = order.OrderDate;
-                PaymentMethod = (int)order.PaymentMethod;
-                OrderDetails = order.OrderDetails;
-                IsPaied = (bool)order.IsPaied;
+                thisOrder = DataProvider.Ins.DB.Orders.Find(SelectedItemClass.OrderId);
+                Title = "XEM ĐƠN HÀNG";
+                CustomerName = thisOrder.Customer.Name;
+                Tel = thisOrder.Customer.Tel;
+                Address = thisOrder.Customer.Address;
+                OrderDate = thisOrder.OrderDate;
+                PaymentMethod = (int)thisOrder.PaymentMethod;
+                OrderDetails = thisOrder.OrderDetails;
+                IsPaied = (bool)thisOrder.IsPaied;
                 CalculateTotal();
+                IsReadOnly = true;
                 SelectedItemClass.OrderId = null;
             }
 
             AddOrderDetailCommand = new RelayCommand<object>((p) =>
             {
-                return SelectedCake != null && SelectedQuantity != null;
+                return SelectedCake != null && SelectedQuantity != null && !IsReadOnly;
             },
                 (p) =>
                 {
@@ -119,12 +135,12 @@ namespace CakeShop.ViewModel
 
             RemoveOrderDetailCommand = new RelayCommand<object>((p) =>
             {
-                return true;
+                return !IsReadOnly;
             },
                 (p) =>
                 {
-                    OrderDetail order = p as OrderDetail;
-                    OrderDetails.Remove(order);
+                    OrderDetail orderDetail = p as OrderDetail;
+                    OrderDetails.Remove(orderDetail);
                     CalculateTotal();
                 });
 
@@ -143,12 +159,31 @@ namespace CakeShop.ViewModel
             },
                 (p) =>
                 {
-                    Customer customer = new Customer { Name = CustomerName, Tel = Tel, Address = Address };
-                    Order order = new Order { Customer = customer, OrderDate = OrderDate, PaymentMethod = PaymentMethod, OrderDetails = OrderDetails, IsPaied = IsPaied };
                     var db = DataProvider.Ins.DB;
-                    db.Orders.Add(order);
+
+                    if (thisOrder == null)
+                    {
+                        Customer customer = new Customer { Name = CustomerName, Tel = Tel, Address = Address };
+                        Order order = new Order { Customer = customer, OrderDate = OrderDate, PaymentMethod = PaymentMethod, OrderDetails = OrderDetails, IsPaied = IsPaied };
+                        db.Orders.Add(order);
+                    }
+                    else
+                    {
+                        thisOrder.IsPaied = IsPaied;
+                    }
                     db.SaveChanges();
+                    MainWindowViewModel.Instance.SelectedIndex = 3;
                 });
+
+            CancelCommand = new RelayCommand<object>((p) =>
+             {
+                 return true;
+             },
+                (p) =>
+                {
+                    MainWindowViewModel.Instance.SelectedIndex = 3;
+                });
+
         }
 
         private void CalculateTotal()
