@@ -10,5 +10,6 @@ namespace CakeShop.Model
     {
         public static int? CakeId { get; set; } = null;
         public static int? OrderId { get; set; } = null;
+        public static bool SelectedClick { get; set; } = false;
     }
 }

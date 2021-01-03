@@ -29,6 +29,9 @@
         <DataTemplate x:Key="CakeDetailTemplate" >
             <local:DetailCakeView/>
         </DataTemplate>
+        <DataTemplate x:Key="AddCakeTemplate">
+            <local:DetailCakeView/>
+        </DataTemplate>
 
         <DataTemplate x:Key="ListOrdersTemplate" >
             <local:ListOrdersView/>
@@ -108,7 +111,7 @@
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding SwitchView}" Value="1">
-                                <Setter Property="ContentTemplate" Value="{StaticResource CakeDetailTemplate}" />
+                                <Setter Property="ContentTemplate" Value="{StaticResource AddCakeTemplate}" />
                             </DataTrigger>
                             
                             <DataTrigger Binding="{Binding SwitchView}" Value="-2">

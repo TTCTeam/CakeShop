@@ -21,7 +21,7 @@ namespace CakeShop.ViewModel
             get { return _SelectedIndex; }
             set { _SelectedIndex = value; SwitchView = SelectedIndex; }
         }
-
+       
         public Cake SelectedItem { get; set; }
         public ICommand CloseWindowCommand { get; set; }
         public ICommand MaximizeWindowCommand { get; set; }

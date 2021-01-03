@@ -43,13 +43,16 @@ namespace CakeShop.ViewModel
                 if (SelectedItemClass.CakeId == null)
                 {
                     Cake = new Cake();
+                    ImagePath = Cake.Thumbnail;
                     AddCakeState = true;
+                   
                 }
                 else
                 {
                     CakeID = (int)SelectedItemClass.CakeId;
                     Cake = db.Cakes.Where(x => x.ID == CakeID).FirstOrDefault();
                     Type = db.TypeDescriptions.Where(x => x.Type == Cake.Type).FirstOrDefault().Description;
+                    SelectedItemClass.CakeId = null;
                 }
 
                 CakeID = Cake.ID;
@@ -137,12 +140,15 @@ namespace CakeShop.ViewModel
                     dem++;
 
                     cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == ID).FirstOrDefault();
+                   
                 } while (cake == null && dem <= DataProvider.Ins.DB.Cakes.Count());
 
                 if (cake != null)
                 {
                     Cake = cake;
+                   
                 }
+                ImagePath = cake.Thumbnail;
 
                 OnPropertyChanged();
             });
@@ -161,12 +167,15 @@ namespace CakeShop.ViewModel
                     dem++;
 
                     cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == ID).FirstOrDefault();
+                   
                 } while (cake == null && dem <= DataProvider.Ins.DB.Cakes.Count());
 
                 if (cake != null)
                 {
                     Cake = cake;
+                   
                 }
+                ImagePath = Cake.Thumbnail;
 
                 OnPropertyChanged();
             });

@@ -34,7 +34,7 @@ namespace CakeShop.ViewModel
                 OnPropertyChanged();
                 if (SelectedItem != null)
                 {
-                    SelectedItemClass.CakeId = SelectedItem.ID;
+                    SelectedItemClass.CakeId = SelectedItem.ID;                  
                     MainWindowViewModel.Instance.SwitchView = -1;
                     MainWindowViewModel.Instance.SelectedIndex = -1;
                     
