@@ -20,8 +20,7 @@ namespace CakeShop.ViewModel
         public BindingList<string> TypeList { get; set; }
         public Cake Cake { get; set; }
         public string Type { get; set; }
-        private string _ImagePath;
-        public string ImagePath { get => _ImagePath; set { OnPropertyChanged(); _ImagePath = Cake.Thumbnail; } }
+        public string ImagePath { get; set; }
         public ICommand AddImageCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand PreviousCakeCommand { get; set; }
@@ -105,7 +104,6 @@ namespace CakeShop.ViewModel
             }, (p) =>
              {
                  var openFileDialog = new OpenFileDialog();
-                 openFileDialog.Multiselect = true;
                  openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.png) | *.jpg; *.jpeg; *.jpe; *.png";
 
                  if (openFileDialog.ShowDialog() == true)
