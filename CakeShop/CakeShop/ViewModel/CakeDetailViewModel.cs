@@ -127,185 +127,99 @@ namespace CakeShop.ViewModel
             NextCakeCommand = new RelayCommand<object>((p) =>
             {
                 if (AddCakeState) return false;
+                if (Cake.ID >= DataProvider.Ins.DB.Cakes.Max(c=>c.ID))
+                {
+                    return false;
+                }
                 return true;
             }, (p) =>
             {
 
-                int ID = Cake.ID + 1;
+                int ID = Cake.ID;
 
                 Cake cake;
-                int dem = 0;
                 do
                 {
-                    dem++;
+                    ID++;
 
-                    cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == ID).FirstOrDefault();
-                   
-                } while (cake == null && dem <= DataProvider.Ins.DB.Cakes.Count());
+                    cake = DataProvider.Ins.DB.Cakes.Find(ID);
+                } while (cake == null);
 
                 if (cake != null)
                 {
                     Cake = cake;
-                   
+                    ImagePath = cake.Thumbnail;
                 }
-                ImagePath = cake.Thumbnail;
+                
 
                 OnPropertyChanged();
             });
             PreviousCakeCommand = new RelayCommand<object>((p) =>
             {
                 if (AddCakeState) return false;
+                if (Cake.ID <= DataProvider.Ins.DB.Cakes.Min(c => c.ID))
+                {
+                    return false;
+                }
                 return true;
             }, (p) =>
             {
-                int ID = Cake.ID - 1;
+                int ID = Cake.ID;
 
                 Cake cake;
-                int dem = 0;
                 do
                 {
-                    dem++;
+                    ID--;
 
-                    cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == ID).FirstOrDefault();
-                   
-                } while (cake == null && dem <= DataProvider.Ins.DB.Cakes.Count());
+                    cake = DataProvider.Ins.DB.Cakes.Find(ID);
+                } while (cake == null);
 
                 if (cake != null)
                 {
                     Cake = cake;
-                   
+                    ImagePath = cake.Thumbnail;
                 }
-                ImagePath = Cake.Thumbnail;
-
                 OnPropertyChanged();
             });
 
-            AddCommand = new RelayCommand<object>((p) =>
-            {
-                if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description) || Cake.Thumbnail == null)
-                {
-                    return false;
-                }
-                if (Cake.Price < 0)
-                {
-                    return false;
-                }
-                return true;
-            }, (p) =>
-            {
-                if (AddCakeState == false)
-                {
-                    var mess = MessageBox.Show("Add new Cake ?", "Notification", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                    if (mess == MessageBoxResult.No)
-                    {
-                        return;
-                    }
-                    Cake = new Cake();
-                    ImagePath = Cake.Thumbnail;
-                    AddCakeState = true;
-                }
-                else
-                {
-                    DataProvider.Ins.DB.Cakes.Add(Cake);
-                    DataProvider.Ins.DB.SaveChanges();
-                }
+            //AddCommand = new RelayCommand<object>((p) =>
+            //{
+            //    if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description) || Cake.Thumbnail == null)
+            //    {
+            //        return false;
+            //    }
+            //    if (Cake.Price < 0)
+            //    {
+            //        return false;
+            //    }
+            //    return true;
+            //}, (p) =>
+            //{
+            //    if (AddCakeState == false)
+            //    {
+            //        var mess = MessageBox.Show("Add new Cake ?", "Notification", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            //        if (mess == MessageBoxResult.No)
+            //        {
+            //            return;
+            //        }
+            //        Cake = new Cake();
+            //        ImagePath = Cake.Thumbnail;
+            //        AddCakeState = true;
+            //    }
+            //    else
+            //    {
+            //        DataProvider.Ins.DB.Cakes.Add(Cake);
+            //        DataProvider.Ins.DB.SaveChanges();
+            //    }
 
-                OnPropertyChanged();
+            //    OnPropertyChanged();
 
-            });
+            //});
 
 
 
         }
-        //public CakeDetailViewModel(int CakeID)
-        //{
-        //    using (CakeShopEntities db = new CakeShopEntities())
-        //    {
-        //        TypeList = new BindingList<string>();
-
-        //        var typeList = db.TypeDescriptions.ToList();
-        //        foreach (var item in typeList)
-        //        {
-        //            TypeList.Add(item.Description);
-        //        }
-
-        //        Cake = db.Cakes.Where(x => x.ID == CakeID).FirstOrDefault();
-        //        //Cake = new Cake(1,"",0,"","");
-        //        ImagePath = Cake.Thumbnail;
-        //        Type = db.TypeDescriptions.Where(x => x.Type == Cake.Type).FirstOrDefault().Description;
-        //    }
-
-        //    UpdateCommand = new RelayCommand<object>((p) =>
-        //    {
-        //        return false;
-
-        //    }, (p) =>
-        //    {
-        //        //var cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == CakeID).SingleOrDefault();
-        //        //cake.Name = Cake.Name;
-        //        //cake.Price = Cake.Price;
-        //        //cake.Ingredients = Cake.Ingredients;
-        //        //cake.Description = Cake.Description;
-        //        //var type = DataProvider.Ins.DB.TypeDescriptions.Where(x => x.Description == Type).SingleOrDefault().Type;
-        //        //cake.Type = type;
-        //        //DataProvider.Ins.DB.SaveChanges();
-        //    });
-
-        //    AddImageCommand = new RelayCommand<object>((p) =>
-        //    {
-        //        return true;
-        //    }, (p) =>
-        //    {
-        //        var openFileDialog = new OpenFileDialog();
-        //        openFileDialog.Multiselect = true;
-        //        openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.png) | *.jpg; *.jpeg; *.jpe; *.png";
-
-        //        if (openFileDialog.ShowDialog() == true)
-        //        {
-        //            var files = openFileDialog.FileNames;
-
-        //            foreach (var file in files)
-        //            {
-        //                ImagePath = file;
-        //                OnPropertyChanged();
-        //                break;
-        //            }
-
-        //        }
-        //    });
-
-        //    NextCakeCommand = new RelayCommand<object>((p) =>
-        //    {
-        //        return true;
-        //    }, (p) =>
-        //    {
-
-
-
-
-        //    });
-        //    PreviousCakeCommand = new RelayCommand<object>((p) =>
-        //    {
-        //        return true;
-        //    }, (p) =>
-        //    {
-
-
-
-
-        //    });
-
-        //    AddCommand = new RelayCommand<object>((p) =>
-        //    {
-        //        return true;
-        //    }, (p) =>
-        //    {
-
-
-
-
-        //    });
-        //}
+    
         public void SaveImageToFolder(Cake cake, string newFilePath)
         {
             // Create Folder

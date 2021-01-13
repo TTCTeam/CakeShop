@@ -3,7 +3,5 @@
                      xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
                     xmlns:local="clr-namespace:CakeShop.ResourceXAML"
                     >
-    <viewmodel:CakeDetailViewModel x:Key="DetailCakeVM"/>
-    <viewmodel:StatisticViewModel x:Key="StatisticVM"/>
-    
+
 </ResourceDictionary>
