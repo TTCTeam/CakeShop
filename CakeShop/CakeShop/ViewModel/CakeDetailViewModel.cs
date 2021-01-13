@@ -28,7 +28,7 @@ namespace CakeShop.ViewModel
         public ICommand UpdateCommand { get; set; }
         public CakeDetailViewModel()
         {
-            int CakeID; 
+            int CakeID;
 
             using (CakeShopEntities db = new CakeShopEntities())
             {
@@ -44,7 +44,7 @@ namespace CakeShop.ViewModel
                     Cake = new Cake();
                     ImagePath = Cake.Thumbnail;
                     AddCakeState = true;
-                   
+
                 }
                 else
                 {
@@ -57,12 +57,12 @@ namespace CakeShop.ViewModel
                 CakeID = Cake.ID;
                 //Cake = new Cake(1,"",0,"","");
                 ImagePath = Cake.Thumbnail;
-               
+
             }
 
             UpdateCommand = new RelayCommand<object>((p) =>
             {
-                if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description)||Cake.Thumbnail==null)
+                if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description) || ImagePath == null)
                 {
                     return false;
                 }
@@ -70,32 +70,32 @@ namespace CakeShop.ViewModel
                 {
                     return false;
                 }
-                if (AddCakeState) return false;
+                //if (AddCakeState) return false;
 
 
                 return true;
 
             }, (p) =>
             {
-                var cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == CakeID).SingleOrDefault();
-                string oldPath = cake.Thumbnail;
-                cake.Thumbnail = ImagePath;
+                    var cake = DataProvider.Ins.DB.Cakes.Where(x => x.ID == CakeID).SingleOrDefault();
+                    string oldPath = cake.Thumbnail;
+                    cake.Thumbnail = ImagePath;
 
-                cake.Name = Cake.Name;
-                cake.Price = Cake.Price;
-                cake.Ingredients = Cake.Ingredients;
-                cake.Description = Cake.Description;
+                    cake.Name = Cake.Name;
+                    cake.Price = Cake.Price;
+                    cake.Ingredients = Cake.Ingredients;
+                    cake.Description = Cake.Description;
 
-                var type = DataProvider.Ins.DB.TypeDescriptions.Where(x => x.Description == Type).SingleOrDefault().Type;
-                cake.Type = type;
+                    var type = DataProvider.Ins.DB.TypeDescriptions.Where(x => x.Description == Type).SingleOrDefault().Type;
+                    cake.Type = type;
 
-                DataProvider.Ins.DB.SaveChanges();
-                //Delete the old file
-                //if (File.Exists(oldPath))
-                //{
-                //    File.Delete(oldPath);
-                //}
-                MessageBox.Show("Đã cập nhật thành công.");
+                    DataProvider.Ins.DB.SaveChanges();
+                    //Delete the old file
+                    //if (File.Exists(oldPath))
+                    //{
+                    //    File.Delete(oldPath);
+                    //}
+                    MessageBox.Show("Đã cập nhật thành công.");
             });
 
             AddImageCommand = new RelayCommand<object>((p) =>
@@ -125,7 +125,7 @@ namespace CakeShop.ViewModel
             NextCakeCommand = new RelayCommand<object>((p) =>
             {
                 if (AddCakeState) return false;
-                if (Cake.ID >= DataProvider.Ins.DB.Cakes.Max(c=>c.ID))
+                if (Cake.ID >= DataProvider.Ins.DB.Cakes.Max(c => c.ID))
                 {
                     return false;
                 }
@@ -148,7 +148,7 @@ namespace CakeShop.ViewModel
                     Cake = cake;
                     ImagePath = cake.Thumbnail;
                 }
-                
+
 
                 OnPropertyChanged();
             });
@@ -180,44 +180,47 @@ namespace CakeShop.ViewModel
                 OnPropertyChanged();
             });
 
-            //AddCommand = new RelayCommand<object>((p) =>
-            //{
-            //    if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description) || Cake.Thumbnail == null)
-            //    {
-            //        return false;
-            //    }
-            //    if (Cake.Price < 0)
-            //    {
-            //        return false;
-            //    }
-            //    return true;
-            //}, (p) =>
-            //{
-            //    if (AddCakeState == false)
-            //    {
-            //        var mess = MessageBox.Show("Add new Cake ?", "Notification", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            //        if (mess == MessageBoxResult.No)
-            //        {
-            //            return;
-            //        }
-            //        Cake = new Cake();
-            //        ImagePath = Cake.Thumbnail;
-            //        AddCakeState = true;
-            //    }
-            //    else
-            //    {
-            //        DataProvider.Ins.DB.Cakes.Add(Cake);
-            //        DataProvider.Ins.DB.SaveChanges();
-            //    }
+            AddCommand = new RelayCommand<object>((p) =>
+            {
+                if (string.IsNullOrEmpty(Cake.Name) || string.IsNullOrEmpty(Cake.Ingredients) || string.IsNullOrEmpty(Cake.Price.ToString()) || string.IsNullOrEmpty(Cake.Description) || ImagePath == null)
+                {
+                    return false;
+                }
+                if (Cake.Price < 0)
+                {
+                    return false;
+                }
+                return true;
+            }, (p) =>
+            {
+                //if (AddCakeState == false)
+                //{
+                //    var mess = MessageBox.Show("Add new Cake ?", "Notification", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                //    if (mess == MessageBoxResult.No)
+                //    {
+                //        return;
+                //    }
+                //    Cake = new Cake();
+                //    ImagePath = Cake.Thumbnail;
+                //    AddCakeState = true;
+                //}
+                //else
+                //{
+                Cake.Thumbnail = ImagePath;
+                var type = DataProvider.Ins.DB.TypeDescriptions.Where(x => x.Description == Type).SingleOrDefault().Type;
+                Cake.Type = type;
+                DataProvider.Ins.DB.Cakes.Add(Cake);
+                DataProvider.Ins.DB.SaveChanges();
+                //}
 
-            //    OnPropertyChanged();
-
-            //});
+                OnPropertyChanged();
+                MainWindowViewModel.Instance.SelectedIndex = 0;
+            });
 
 
 
         }
-    
+
         public void SaveImageToFolder(Cake cake, string newFilePath)
         {
             // Create Folder

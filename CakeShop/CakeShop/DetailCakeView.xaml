@@ -43,7 +43,7 @@
                    Source="{Binding Path=ImagePath, Converter={StaticResource converter}, UpdateSourceTrigger=PropertyChanged}" 
                    
                    RenderOptions.BitmapScalingMode="HighQuality"
-                   Stretch="UniformToFill"
+                  
                    />
 
             <Button   Grid.Row="1"
@@ -155,10 +155,23 @@
 
                     <Button   
                         HorizontalAlignment="Center"
-                        Style="{StaticResource MaterialDesignRaisedLightButton}"  
-                        Command="{Binding UpdateCommand}"
                         Width="140"
-                        Content="UPDATE" Margin="0 0 10 0"/>
+                        Margin="0 0 10 0">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AddCakeState}" Value="True">
+                                        <Setter Property="Content" Value="ADD NEW CAKE"/>
+                                        <Setter Property="Command" Value="{Binding AddCommand}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding AddCakeState}" Value="False">
+                                        <Setter Property="Content" Value="UPDATE"/>
+                                        <Setter Property="Command" Value="{Binding UpdateCommand}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button   
                         HorizontalAlignment="Center"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"  

@@ -37,8 +37,7 @@ namespace CakeShop
 
             public static Splashscreen getAll()
             {
-                var folder = AppDomain.CurrentDomain.BaseDirectory;
-                var filepath = $"{folder}SplashScreen.txt";
+                var filepath = $"SplashScreen.txt";
 
                 var splscreen = new Splashscreen();
 

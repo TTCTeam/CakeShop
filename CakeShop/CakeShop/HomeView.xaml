@@ -315,7 +315,7 @@
 
                                         <Label x:Name="Price" Content="{Binding Price}" HorizontalAlignment="Center" FontSize="16" Foreground="Black" FontWeight="Bold"/>
 
-                                        <Button Margin="0,3,0,0" Name="Detail" Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                        <Button Margin="0,3,0,0" Name="Detail" Style="{StaticResource MaterialDesignRaisedAccentButton}">
                                             <materialDesign:PackIcon Kind="ClipboardTextOutline" Width="25" Height="25" VerticalAlignment="Center"></materialDesign:PackIcon>
                                         </Button>
                                     </StackPanel>
