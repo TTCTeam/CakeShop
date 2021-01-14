@@ -65,7 +65,9 @@ Hà Minh Cường       -  18120297  -  18120297@student.hcmus.edu.vn
 
 ```
 ## Các chức năng làm thêm:
-	
+		- Tìm kiếm bánh theo tên.
+		- Phân trang Home Screen.
+		-
 
 ## Các con đường bất hạnh đã giải quyết:	
 	

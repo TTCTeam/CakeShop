@@ -154,7 +154,7 @@
                         materialDesign:HintAssist.Hint="Số lượng"
                         materialDesign:HintAssist.HintOpacity=".26"
                         ItemsSource="{Binding Quantities}"
-                        Text="{Binding SelectedQuantity,TargetNullValue=''}"
+                        Text="{Binding SelectedQuantity}"
                         FontSize="15"
                         IsEditable="True">
                     </ComboBox>
@@ -210,7 +210,7 @@
                                 <ComboBox 
                                     IsReadOnly="{Binding ElementName=addOrderUserControl, Path=DataContext.IsReadOnly}"
                                     IsHitTestVisible="{Binding ElementName=addOrderUserControl, Path=DataContext.IsChangeable}"
-                                    Focusable="{Binding ElementName=addOrderUserControl, Path=DataContext.IsReadOnly}"
+                                    Focusable="{Binding ElementName=addOrderUserControl, Path=DataContext.IsChangeable}"
                                     Width="80" 
                                     Margin="10"
                                     materialDesign:HintAssist.Hint="Số lượng"
@@ -218,7 +218,7 @@
                                     ItemsSource="{Binding Path=DataContext.Quantities, ElementName=addOrderUserControl}"
                                     Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                     FontSize="15"
-                                    IsEditable="False">
+                                    IsEditable="True">
                                 </ComboBox>
                                 <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed">
                                     <i:Interaction.Triggers>

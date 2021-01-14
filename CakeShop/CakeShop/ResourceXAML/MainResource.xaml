@@ -3,5 +3,6 @@
                      xmlns:viewmodel="clr-namespace:CakeShop.ViewModel"
                     xmlns:local="clr-namespace:CakeShop.ResourceXAML"
                     >
+    <viewmodel:HomeViewModel x:Key="HomeVM"/>
 
 </ResourceDictionary>
